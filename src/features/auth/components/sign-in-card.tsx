@@ -1,3 +1,5 @@
+import { useState } from "react"
+
 import {FcGoogle} from "react-icons/fc"
 import { FaGithub } from "react-icons/fa"
 import { Button } from "@/components/ui/button"
@@ -5,7 +7,6 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Input } from "@/components/ui/input"
 import { Separator } from "@/components/ui/separator"
 import { SignInFlow } from "../types"
-import { useState } from "react"
 
 interface SignInCardProps {
     setState: (state:SignInFlow)=>void
@@ -13,6 +14,7 @@ interface SignInCardProps {
 export const SignInCard = ({setState}:SignInCardProps) => {
     const [email, setEmail] =useState('');
     const [password, setPassword] =useState('');
+   
     return (
         <Card className="w-full h-full p-8">
             <CardHeader className="px-0 pt-0">
