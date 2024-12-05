@@ -9,11 +9,11 @@ import {
     DropdownMenuSeparator,
     DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
-import { useCurrentUser } from "../hooks/use-current-user"
+import { useCurrentUser } from "../api/use-current-user"
 import { useAuthActions } from "@convex-dev/auth/react"
 
 export const UserButton = () => {
-    const {signOut} = useAuthActions
+    const {signOut} = useAuthActions()
     const { data, isLoading } = useCurrentUser();
     if (isLoading) {
         return <Loader className="size-4 animate-spin text-muted-foreground" />
