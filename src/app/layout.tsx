@@ -1,8 +1,11 @@
 
+
+
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import { ConvexAuthNextjsServerProvider } from "@convex-dev/auth/nextjs/server";
 import { ConvexClientProvider } from "@/components/convex-client-provider";
+import { JotaiProvider } from "@/components/jotai-provider";
 import { Modals } from "@/components/modals";
 import { Toaster } from "@/components/ui/sonner";
 import "./globals.css";
@@ -21,15 +24,17 @@ export default function RootLayout({
 }) {
   return (
     <ConvexAuthNextjsServerProvider>
-    <html lang="en">
-      <body className={inter.className}>
-        <ConvexClientProvider>
-          <Toaster />
-          <Modals/>
-          {children}
+      <html lang="en">
+        <body className={inter.className}>
+          <ConvexClientProvider>
+            <JotaiProvider>
+              <Toaster />
+              <Modals />
+              {children}
+            </JotaiProvider>
           </ConvexClientProvider>
-      </body>
-    </html>
+        </body>
+      </html>
     </ConvexAuthNextjsServerProvider>
   );
 }
