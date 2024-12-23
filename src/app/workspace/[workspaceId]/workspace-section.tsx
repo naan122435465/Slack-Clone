@@ -11,7 +11,7 @@ interface WorkspaceSectionProps {
     children: React.ReactNode;
     label: string;
     hint: string;
-    onNew: () => void;
+    onNew: (() => void) | undefined ;
 };
 export const WorkspaceSection = ({ children, label, hint, onNew }: WorkspaceSectionProps) => {
 const [on, toggle] = useToggle(true);
