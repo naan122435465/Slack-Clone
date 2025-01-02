@@ -6,6 +6,7 @@ import { DropdownMenu, DropdownMenuContent, DropdownMenuSeparator, DropdownMenuT
 import { Doc } from "../../../../convex/_generated/dataModel"
 import { DropdownMenuItem } from "@radix-ui/react-dropdown-menu";
 import { PreferencesModal } from "./preferences-modal";
+import { InviteModal } from "./invite-modal";
 
 import { Hint } from "@/components/hint";
 
@@ -15,10 +16,17 @@ interface WorkspaceHeaderProps {
     isAdmin: boolean
 }
 export const WorkspaceHeader = ({ workspace, isAdmin }: WorkspaceHeaderProps) => {
-    const [preferencesOpen, setPreferencesOpen] = useState(false)
+    const [preferencesOpen, setPreferencesOpen] = useState(false);
+    const [inviteOpen, setInviteOpen] = useState(false)
 
     return (
         <>
+            <InviteModal
+            open={inviteOpen}
+            setOpen={setInviteOpen}
+            name = {workspace.name}
+            joinCode = {workspace.joinCode}
+             />
             <PreferencesModal
                 open={preferencesOpen}
                 setOpen={setPreferencesOpen}
@@ -61,7 +69,7 @@ export const WorkspaceHeader = ({ workspace, isAdmin }: WorkspaceHeaderProps) =>
                                 <DropdownMenuSeparator />
                                 <DropdownMenuItem
                                     className="cursor-pointer py-2"
-                                    onClick={() => { }}
+                                    onClick={() => setInviteOpen(true)}
                                 >
                                     Invite people to {workspace?.name}
                                 </DropdownMenuItem>
