@@ -31,7 +31,7 @@ export const join = mutation({
     if(!workspace) {
       throw new Error('Workspace not found');
     }
-console.log('joinCode',workspace.joinCode, args.joinCode.toLowerCase());
+    
     if(workspace.joinCode !== args.joinCode.toLowerCase()){
       throw new Error("Invalid join code");
     }
