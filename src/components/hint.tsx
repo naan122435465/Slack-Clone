@@ -17,8 +17,8 @@ align
 
      return (
             <TooltipProvider >
-                <Tooltip delayDuration={50}>
-                    <TooltipTrigger>
+                <Tooltip delayDuration={50} >
+                    <TooltipTrigger asChild>
                         {children}
                     </TooltipTrigger>
                     <TooltipContent side={side} align={align} className="bg-black text-white border border-white/5 ">

@@ -31,11 +31,38 @@ export const create = mutation(
                 workspaceId: args.workspaceId,
 
             });
-            
+
             return channelId;
         }
     }
 );
+
+export const getById = query({
+    args: {
+        id: v.id('channels')
+    },
+    handler: async (ctx, args) => {
+        const userId = await auth.getUserId(ctx);
+        // check user
+        if (!userId) {
+            return null;
+        };
+        const channel = await ctx.db.get(args.id);
+        if (!channel) {
+            return null;
+        }
+        // check the user belong channel
+        const member = await ctx.db
+            .query('members')
+            .withIndex('by_workspcace_id_user_id', (q) => q.eq('workspaceId', channel.workspaceId).eq('userId', userId))
+            .unique();
+        if (!member) {
+            return null;
+        }
+
+        return channel;
+    }
+})
 
 export const get = query({
     args: {
@@ -63,4 +90,63 @@ export const get = query({
 
         return channels;
     },
+});
+export const update = mutation({
+    args: {
+        id: v.id('channels'),
+        name: v.string(),
+    },
+    handler: async (ctx, args) => {
+        const userId = await auth.getUserId(ctx);
+        if (!userId) {
+            throw new Error('Unauthozired');
+        }
+        const channel = await ctx.db.get(args.id);
+
+        if(!channel){
+            throw new Error('Channel not found')
+        }
+
+        const member = await ctx.db
+            .query('members')
+            .withIndex('by_workspcace_id_user_id', (q) => q.eq('workspaceId', channel.workspaceId).eq('userId', userId))
+            .unique();
+
+        if (!member || member.role !== 'admin') {
+            throw new Error('Unauthoziried');
+        }
+       await ctx.db.patch(args.id, {
+            name: args.name
+        })
+        return args.id
+
+    }
+});
+export const remove = mutation({
+    args: {
+        id: v.id('channels'),
+    },
+    handler: async (ctx, args) => {
+        const userId = await auth.getUserId(ctx);
+        if (!userId) {
+            throw new Error('Unauthozired');
+        }
+        const channel = await ctx.db.get(args.id);
+
+        if(!channel){
+            throw new Error('Channel not found')
+        }
+
+        const member = await ctx.db
+            .query('members')
+            .withIndex('by_workspcace_id_user_id', (q) => q.eq('workspaceId', channel.workspaceId).eq('userId', userId))
+            .unique();
+
+        if (!member || member.role !== 'admin') {
+            throw new Error('Unauthoziried');
+        }
+        await ctx.db.delete(args.id)
+        return args.id
+
+    }
 });
