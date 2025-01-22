@@ -145,6 +145,8 @@ export const remove = mutation({
         if (!member || member.role !== 'admin') {
             throw new Error('Unauthoziried');
         }
+
+        // TODO: Remove associated message
         await ctx.db.delete(args.id)
         return args.id
 
